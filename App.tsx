@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { type ChatMessage } from './types';
 import { createChatSession } from './services/geminiService';
@@ -81,10 +80,14 @@ const App: React.FC = () => {
 
   const renderMessage = (msg: ChatMessage) => {
     const isModel = msg.role === 'model';
+    
+    const modelBubbleStyles = "bg-gray-800/60 backdrop-blur-sm border border-indigo-800/40 text-indigo-200 rounded-bl-none shadow-lg";
+    const userBubbleStyles = "bg-slate-700 text-gray-100 rounded-br-none shadow-md";
+
     return (
-      <div key={msg.id} className={`flex ${isModel ? 'justify-start' : 'justify-end'} mb-6 animate-fade-in`}>
-        <div className={`max-w-xl lg:max-w-2xl px-6 py-4 rounded-3xl ${isModel ? 'bg-gray-800 text-gray-200 rounded-bl-lg' : 'bg-indigo-800 text-white rounded-br-lg'}`}>
-          <p className="whitespace-pre-wrap text-lg md:text-xl leading-relaxed font-medium">{msg.text}</p>
+      <div key={msg.id} className={`flex ${isModel ? 'justify-start' : 'justify-end'} mb-6 animate-fade-in-slide-up`}>
+        <div className={`max-w-xl lg:max-w-2xl px-6 py-4 rounded-2xl ${isModel ? modelBubbleStyles : userBubbleStyles}`}>
+          <p className={`whitespace-pre-wrap text-lg md:text-xl leading-relaxed font-medium ${isModel ? 'italic' : ''}`}>{msg.text}</p>
         </div>
       </div>
     );
@@ -108,12 +111,12 @@ const App: React.FC = () => {
           <div>
             {messages.map(renderMessage)}
             {isLoading && (
-               <div className="flex justify-start mb-6">
-                 <div className="max-w-xl px-6 py-4 rounded-3xl bg-gray-800 text-gray-200 rounded-bl-lg">
+               <div className="flex justify-start mb-6 animate-fade-in-slide-up">
+                 <div className="max-w-xl px-6 py-4 rounded-2xl bg-gray-800/60 rounded-bl-none">
                     <div className="flex items-center space-x-2">
-                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse delay-0"></span>
-                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse delay-200"></span>
-                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse delay-400"></span>
+                        <span className="w-2 h-2 bg-indigo-300 rounded-full animate-pulse delay-0"></span>
+                        <span className="w-2 h-2 bg-indigo-300 rounded-full animate-pulse delay-200"></span>
+                        <span className="w-2 h-2 bg-indigo-300 rounded-full animate-pulse delay-400"></span>
                     </div>
                  </div>
                </div>
